@@ -1,0 +1,32 @@
+{{- $image := partial "helper/image" (dict "Resources" .Page.Resources "Image" .Destination) -}}
+{{- $altRaw := .PlainText | safeHTML -}}
+{{- $title := .Title | markdownify -}}
+
+{{/* Parse width from alt text: "alt text|45%" => alt="alt text", width="45%" */}}
+{{- $alt := $altRaw -}}
+{{- $width := "" -}}
+{{- if strings.Contains $altRaw "|" -}}
+{{- $parts := split $altRaw "|" -}}
+{{- $alt = index $parts 0 | strings.TrimRight " " -}}
+{{- $width = index $parts 1 | strings.TrimLeft " " -}}
+{{- end -}}
+
+{{/* Check if $image is a valid resource or just a fallback string */}}
+{{- $isResource := not (eq (printf "%T" $image) "string") -}}
+
+{{- if $isResource -}}
+{{/* SVG and external images won't work with gallery layout, because their width and height attributes are unknown */}}
+{{- $galleryImage := and $image.Height $image.Width -}}
+
+<img src="{{ $image.Permalink }}" {{ with $image.Width }}width="{{ . }}" {{ end }} {{ with $image.Height
+    }}height="{{ . }}" {{ end }} loading="lazy" {{ with $alt }} alt="{{ . }}" {{ end }} {{ with $title }}
+    title="{{ . }}" data-title-escaped="{{ . | htmlEscape }}" {{ end }} {{ if $galleryImage }} class="gallery-image"
+    data-flex-grow="{{ div (mul $image.Width 100) $image.Height }}"
+    data-flex-basis="{{ div (mul $image.Width 240) $image.Height }}px" {{ end }} {{ with $width }}
+    style="max-width: {{ . }}; height: auto;" {{ end }}>
+{{- else -}}
+{{/* Fallback: $image is a string (URL or missing resource), render as plain img */}}
+<img src="{{ $image }}" loading="lazy" {{ with $alt }} alt="{{ . }}" {{ end }} {{ with $title }} title="{{ . }}"
+    data-title-escaped="{{ . | htmlEscape }}" {{ end }} {{ with $width }} style="max-width: {{ . }}; height: auto;" {{
+    end }}>
+{{- end -}}

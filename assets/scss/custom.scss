@@ -1,0 +1,20 @@
+/* 修正阅读时长的容器布局 */
+.article-time {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+
+    div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+/* 针对隐藏日期的特殊情况单独处理 */
+.hide-article-date {
+    .article-time div:first-child {
+        display: none !important;
+    }
+}

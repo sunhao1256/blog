@@ -1,0 +1,17 @@
+# Configure main menu and social menu
+
+[[social]]
+    identifier = "github"
+    name       = "GitHub"
+    url        = "https://github.com/LuluBrand"
+
+    [social.params]
+        icon = "brand-github"
+
+[[social]]
+    identifier = "email"
+    name       = "Email"
+    url        = "mailto:sunhao1256@gmail.com"
+
+    [social.params]
+        icon = "mail"

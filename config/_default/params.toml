@@ -1,0 +1,70 @@
+# Pages placed under these sections will be shown on homepage and archive page.
+mainSections = ["post"]
+# Output page's full content in RSS.
+rssFullContent = true
+favicon        = "img/favicon.svg"
+
+# Accepted values: "default", "lastmod"
+SortBy = "default"
+
+[footer]
+    since      = 2025
+    customText = ""
+
+[dateFormat]
+    published   = "2006-01-02"
+    lastUpdated = "2006-01-02"
+
+[sidebar]
+    emoji    = "🫡"
+    subtitle = "记录生活，分享技术"
+    avatar   = "img/avatar.png"
+
+[article]
+    toc           = true
+    readingTime   = true
+    readingtime   = true
+    headingAnchor = false
+    math          = false
+
+    [article.license]
+        enabled = true
+        default = "Licensed under CC BY-NC-SA 4.0"
+
+[widgets]
+    homepage = [
+        { type = "search" },
+        { type = "archives", params = { limit = 5 } },
+        { type = "categories", params = { limit = 10 } },
+        { type = "tag-cloud", params = { limit = 10 } },
+    ]
+    page = [{ type = "toc" }]
+    post = [{ type = "toc" }]
+
+[opengraph.twitter]
+    site = ""
+    card = "summary_large_image"
+
+[colorScheme]
+    toggle  = true
+    default = "auto"
+
+## Comments - Giscus
+[comments]
+    enabled  = true
+    provider = "giscus"
+
+    [comments.giscus]
+        repo             = "LuluBrand/blog"
+        repoID           = "R_kgDORa49dA"
+        category         = "Announcements"
+        categoryID       = "DIC_kwDORa49dM4C3YsM"
+        mapping          = "pathname"
+        lightTheme       = "light"
+        darkTheme        = "dark_dimmed"
+        reactionsEnabled = 0
+        emitMetadata     = 0
+        inputPosition    = "bottom"
+        lang             = "zh-CN"
+        strict           = 0
+        loading          = "lazy"
