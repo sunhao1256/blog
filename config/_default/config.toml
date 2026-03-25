@@ -1,7 +1,7 @@
 # Change baseurl before deploy
-baseurl      = "https://lulubrand.github.io/"
+baseurl      = "https://sunhao1256.github.io/"
 languageCode = "zh-cn"
-title        = "LuluBd 的博客"
+title        = "Cyber Neon 的博客"
 
 # Theme i18n support
 defaultContentLanguage = "zh-cn"

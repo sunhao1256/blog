@@ -4,7 +4,7 @@ slug: "about"
 date: 2025-02-28
 style:
     class: "hide-article-date"
-description: "欢迎来到 LuluBd 的个人空间"
+description: "欢迎来到 Cyber Neon 的个人空间"
 menu:
     main:
         weight: 4
@@ -12,7 +12,7 @@ menu:
             icon: user
 ---
 
-## 👋 你好，我是 LuluBrand
+## 👋 你好，我是 Cyber Neon
 
 <img src="IMG_0150.jpeg" style="width: 30%; border-radius: 10%;">
 
