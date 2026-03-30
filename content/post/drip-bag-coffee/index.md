@@ -2,7 +2,7 @@
 title: "挂耳咖啡"
 description: ""
 date: 2026-03-06T09:37:56+08:00
-image: ""
+image: "cover.jpg"
 categories:
     - 精神食粮
 tags:
