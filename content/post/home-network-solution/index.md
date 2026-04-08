@@ -37,7 +37,7 @@ readingTime: true
 ![内网域名解析|45%](image.png "内网域名解析")
 
 
-4.  **动态域名解析 (DDNS)**：官方固件内置的解析服务有限，我通过自定义脚本实现了 阿里云 和 Cloudflare 的集成。
+4.  **动态域名解析 (DDNS)**：官方固件内置的解析服务有限，我通过自定义脚本实现了 阿里云 和 Cloudflare 的集成。配置文件/etc/config/ddns
 
 ![DDNS 脚本配置|50%](image_1.png "DDNS 脚本配置")
 
