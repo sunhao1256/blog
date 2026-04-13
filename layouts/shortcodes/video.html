@@ -1,0 +1,17 @@
+<video 
+    src="{{ .Get "src" }}" 
+    {{ with .Get "controls" }}{{ if eq . "true" }}controls{{ end }}{{ else }}controls{{ end }}
+    {{ with .Get "autoplay" }}{{ if eq . "true" }}autoplay muted{{ end }}{{ end }}
+    {{ with .Get "loop" }}{{ if eq . "true" }}loop{{ end }}{{ end }}
+    playsinline
+    style="
+        width: {{ with .Get "width" }}{{ . }}{{ else }}100%{{ end }};
+        max-width: 100%; 
+        height: auto; 
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: top;
+        margin: 5px;
+    ">
+    您的浏览器不支持 video 标签。
+</video>

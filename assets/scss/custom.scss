@@ -12,6 +12,18 @@
     }
 }
 
+/* 全局媒体效果优化 */
+.article-content {
+    // img, video {
+    //     border-radius: 12px;
+    //     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    //     margin: 1.5rem auto;
+    //     display: block;
+    //     /* 针对部分浏览器的额外兼容性处理 */
+    //     filter: brightness(1.0); 
+    // }
+}
+
 /* 针对隐藏日期的特殊情况单独处理 */
 .hide-article-date {
     .article-time div:first-child {
