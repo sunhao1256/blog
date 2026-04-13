@@ -11,3 +11,26 @@ hasCJKLanguage = true
 
 [pagination]
     pagerSize = 5
+
+# 性能优化：启用机器人文件
+enableRobotsTXT = true
+
+
+[minify]
+    disableXML = true
+    minifyOutput = true # 全局压缩 HTML
+
+[caches]
+    [caches.assets]
+        dir = ":resourceDir/_gen"
+        maxAge = "720h" # 缓存一个月
+
+[imaging]
+    # 设置图片的默认质量，85 是肉眼难以分辨但体积显著减小的平衡点
+    quality = 85
+    # 启用锚点智能缩放
+    anchor = "smart"
+    # 后端处理引擎
+    resampleFilter = "Lanczos"
+
+

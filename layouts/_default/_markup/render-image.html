@@ -1,0 +1,17 @@
+{{- $image := .Page.Resources.GetMatch .Destination -}}
+{{- if $image -}}
+    {{- /* 如果是本地资源图片，可以利用 Hugo 自动处理缩放 */ -}}
+    <img src="{{ $image.RelPermalink }}"
+         {{ with .Text }}alt="{{ . }}"{{ end }}
+         {{ with .Title }}title="{{ . }}"{{ end }}
+         loading="lazy"
+         decoding="async"
+         style="border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+{{- else -}}
+    {{- /* 如果是外部链接或找不到资源，直接原样输出 */ -}}
+    <img src="{{ .Destination | safeURL }}"
+         {{ with .Text }}alt="{{ . }}"{{ end }}
+         {{ with .Title }}title="{{ . }}"{{ end }}
+         loading="lazy"
+         decoding="async">
+{{- end -}}
