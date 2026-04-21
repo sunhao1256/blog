@@ -24,7 +24,7 @@ SortBy = "default"
     toc           = true
     readingTime   = true
     readingtime   = true
-    headingAnchor = false
+    headingAnchor = true
     math          = false
 
     [article.license]

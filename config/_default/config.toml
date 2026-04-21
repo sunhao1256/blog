@@ -2,6 +2,11 @@
 baseurl      = "https://sunhao1256.github.io/"
 languageCode = "zh-cn"
 title        = "Cyber Neon 的博客"
+enableGitInfo = true
+
+[frontmatter]
+    lastmod = [":git", "lastmod", "date", "publishDate"]
+
 
 # Theme i18n support
 defaultContentLanguage = "zh-cn"
