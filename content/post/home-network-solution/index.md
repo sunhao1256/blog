@@ -108,3 +108,96 @@ Tailscale 基于 WireGuard 协议，但在易用性和安全性上做了极大�
 
 这套架构目前运行极其稳定，基本实现了「无论身在何处，家就在指尖」的网络初衷。
 
+
+## CF DDNS脚本
+
+```
+#!/bin/sh
+
+# ==================== CONFIGURATION ====================
+CF_TOKEN="xxx"
+ZONE_ID="xxx"
+
+DOMAIN="xxx"
+SUB_DOMAIN="xxx"
+
+BARK_KEY="xxx"
+BARK_DOMAIN="xxx"
+BARK_USER="xxx"
+BARK_PASS="xxx"
+BARK_GROUP="Network"
+# =======================================================
+
+get_current_ip() {
+    current_ip=$(curl -s http://whatismyip.akamai.com || curl -s http://ipv4.icanhazip.com)
+    echo "$current_ip" | grep -E -o "([0-9]{1,3}\.){3}[0-9]{1,3}"
+}
+
+send_bark_notification() {
+    local title=$1
+    local body=$2
+    
+    curl -s -k -u "$BARK_USER:$BARK_PASS" \
+        -X POST "$BARK_DOMAIN/push" \
+        -H "Content-Type: application/json; charset=utf-8" \
+        -d "{
+            \"device_key\": \"$BARK_KEY\",
+            \"title\": \"$title\",
+            \"body\": \"$body\",
+            \"group\": \"$BARK_GROUP\",
+            \"sound\": \"minuet\"
+        }" > /dev/null
+}
+
+# -----------------------------------------------------------------
+# PHASE 1: OpenWrt calls script to DETECT local WAN IP
+# -----------------------------------------------------------------
+if [ -z "$1" ]; then
+    CURRENT_IP=$(get_current_ip)
+    if [ -n "$CURRENT_IP" ]; then
+        echo "$CURRENT_IP"
+        exit 0
+    else
+        exit 1
+    fi
+fi
+
+# -----------------------------------------------------------------
+# PHASE 2: OpenWrt calls script to UPDATE DNS record (when $1 is passed)
+# -----------------------------------------------------------------
+# OpenWrt passes the target IP as the first argument ($1)
+NEW_IP="$1"
+
+FULL_DOMAIN="$DOMAIN"
+if [ -n "$SUB_DOMAIN" ] && [ "$SUB_DOMAIN" != "@" ]; then
+    FULL_DOMAIN="$SUB_DOMAIN.$DOMAIN"
+fi
+
+# Fetch current Cloudflare IP record to get Record ID and check history
+CF_RECORD=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=$FULL_DOMAIN&type=A" \
+    -H "Authorization: Bearer $CF_TOKEN" \
+    -H "Content-Type: application/json")
+
+RECORD_ID=$(echo "$CF_RECORD" | grep -o '"id":"[^"]*' | head -n1 | cut -d'"' -f4)
+CF_IP=$(echo "$CF_RECORD" | grep -o '"content":"[^"]*' | head -n1 | cut -d'"' -f4)
+
+if [ -z "$RECORD_ID" ]; then
+    send_bark_notification "DDNS Error" "Record not found for $FULL_DOMAIN on Cloudflare."
+    exit 1
+fi
+
+# Execute PUT update to Cloudflare
+RESPONSE=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$RECORD_ID" \
+    -H "Authorization: Bearer $CF_TOKEN" \
+    -H "Content-Type: application/json" \
+    --data "{\"type\":\"A\",\"name\":\"$FULL_DOMAIN\",\"content\":\"$NEW_IP\",\"ttl\":120,\"proxied\":false}")
+
+if echo "$RESPONSE" | grep -q '"success":true'; then
+    # Only send Bark notification when the IP actually successfully changed over API
+    send_bark_notification "Home IP Updated" "Cloudflare DDNS Success! Old: ${CF_IP} -> New: ${NEW_IP}"
+    exit 0
+else
+    send_bark_notification "DDNS Update Failed" "Cloudflare API communication failed."
+    exit 1
+fi
+```
