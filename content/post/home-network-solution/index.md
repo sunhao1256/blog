@@ -99,6 +99,10 @@ Tailscale 基于 WireGuard 协议，但在易用性和安全性上做了极大�
 ![Tailscale ACL 访问控制|60%](image_4.png "Tailscale ACL 访问控制")
 
 
+## Wol
+在外面如果想唤醒机器的话，好像wireguar到家里，执行wol是不行的。所以我是把wol脚本放在了小米路由器上。
+参考[wol](https://github.com/Ericwyn/wol/releases/tag/V0.0.1)
+
 ## 总结
 
 目前的方案在「大厂固件的稳定性」与「开源社区的灵活性」之间找到了平衡：
