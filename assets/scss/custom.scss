@@ -12,7 +12,7 @@
     }
 }
 
-/* 全局媒体效果优化 */
+/* 全局媒体效果优化与链接样式 */
 .article-content {
     // img, video {
     //     border-radius: 12px;
@@ -22,6 +22,30 @@
     //     /* 针对部分浏览器的额外兼容性处理 */
     //     filter: brightness(1.0); 
     // }
+
+    a {
+        color: #2b73e6;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1.5px;
+        font-weight: 500;
+        transition: color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out;
+
+        &:hover {
+            color: #1a4fa8;
+            text-decoration-color: #1a4fa8;
+        }
+    }
+}
+
+/* 适配深色模式 */
+[data-scheme="dark"] .article-content a {
+    color: #6fb2ff;
+
+    &:hover {
+        color: #a3cfff;
+        text-decoration-color: #a3cfff;
+    }
 }
 
 /* 针对隐藏日期的特殊情况单独处理 */
