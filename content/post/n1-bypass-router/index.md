@@ -107,6 +107,10 @@ tailscale up --accept-dns=false --advertise-routes=10.0.0.0/24 // 这里开放�
 
 ![spilit dns](image-6.png)
 
+如果你和我一样没有默认放开所有的rbac的话，别忘记给所有用户加一个dns的权限。
+
+![rbac dns](image-10.png)
+
 
 
 ### 测试
@@ -120,6 +124,9 @@ tailscale status
 因为底层还是wg，只是多跳了一次op，和原生wg没太大区别。tailscale的权限控制简直了，我测试了下，admin页面修改rbac后，几秒就自动生效了，客户端无感，无需重连。
 
 ![ping](image-9.png)
+
+dns检查
+![dns检查](image-11.png)
 
 ## 总结
 
