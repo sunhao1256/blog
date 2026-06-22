@@ -78,9 +78,14 @@ opkg remove luci-app-openclash
 /etc/init.d/tailscale start
 tailscale up --accept-dns=false --advertise-routes=10.0.0.0/24 // 这里开放自己想要的子网比如我的192.168.31.0/24
 ```
-作者没提供修改port，修改port直接就修改/etc/init.d/tailscale就可以了，在shell脚本里有的
+作者没提供修改port，修改port直接就修改/etc/init.d/tailscale就可以了，在shell脚本里有的。
+
 
 ![tailscale](image-3.png)
+
+别忘记到主路由器那边把udp转发到op。
+
+![端口转发](image-7.png)
 
 有公网ip，一定要netcheck一下，确保对外的ipv4是你的公网ip。
 
@@ -101,6 +106,20 @@ tailscale up --accept-dns=false --advertise-routes=10.0.0.0/24 // 这里开放�
 添加一个split dns，指向op所在的tailscale网段分配的ip就可以了。这样朋友连接上tailscale，lulu的特殊域名，就会解析到op的机器，op通过上方在openclash配置的自定义域名解析，把解析请求转发给ax9000，这样就实现了内网域名解析。
 
 ![spilit dns](image-6.png)
+
+
+
+### 测试
+检查一下tailscale的状态，确保走的direct就行了。
+*** shell
+tailscale status
+***
+
+![tailscale status ](image-8.png)
+
+因为底层还是wg，只是多跳了一次op，和原生wg没太大区别。tailscale的权限控制简直了，我测试了下，admin页面修改rbac后，几秒就自动生效了，客户端无感，无需重连。
+
+![ping](image-9.png)
 
 ## 总结
 
